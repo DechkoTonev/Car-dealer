@@ -1,0 +1,50 @@
+.App {
+}
+
+.notification-bar {
+    width: 100%;
+}
+
+#infoBox, #errorBox, #loadingBox {
+    width: 80%;
+    margin: 10px auto;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 3px;
+    display: none;
+    cursor: pointer;
+    z-index: 2;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
+
+#loadingBox {
+    background-image: url("./img/loading.gif");
+    background-repeat: no-repeat;
+    width: 128px;
+    height: 128px;
+}
+#infoBox {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
+#errorBox {
+    background: #F50;
+}
+
+table th {
+    background: #DDD;
+    padding: 10px;
+}
+
+table td {
+    padding: 5px 10px;
+    background: #EEE;
+}

@@ -7,6 +7,7 @@ export default class BooksView extends Component {
                 <td>{post.title}</td>
                 <td>{post.description}</td>
                 <td>{post.article}</td>
+                <td><img src={post.imageUrl} role="presentation" className="img-responsive" /></td>
                 {this.getActions(post, this.props.userId)}
             </tr>
         );
@@ -20,6 +21,7 @@ export default class BooksView extends Component {
                             <th>Title</th>
                             <th>Description</th>
                             <th>Article</th>
+                            <th>Image</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

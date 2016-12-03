@@ -16,6 +16,11 @@ export default class CreateBookView extends Component {
                        ref={e => this.descriptionField = e} />
                 </label>
                 <label>
+                    <div>URL of picture:</div>
+                    <input type="text" name="pictureUrl" required
+                           ref={e => this.pictureUrlField = e} />
+                </label>
+                <label>
                     <div>Article:</div>
                     <textarea name="article" rows="10"
                         ref={e => this.articleField = e} />
@@ -32,6 +37,7 @@ export default class CreateBookView extends Component {
         this.props.onsubmit(
             this.titleField.value,
             this.descriptionField.value,
+            this.pictureUrlField.value,
             this.articleField.value
         );
     }

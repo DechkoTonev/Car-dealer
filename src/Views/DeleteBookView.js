@@ -23,6 +23,13 @@ export default class DeleteBookView extends Component {
                               ref={e => this.articleField = e}
                               defaultValue={this.props.article}/>
                 </label>
+                <label>
+                    <div>URL of picture:</div>
+                    <input name="pictureUrl" disabled
+                           ref={e => this.pictureUrlField = e}
+                           defaultValue={this.props.imageUrl}/>
+                    <img src={this.props.imageUrl} width="240px" />
+                </label>
                 <div>
                     <input type="submit" value="Delete" />
                 </div>

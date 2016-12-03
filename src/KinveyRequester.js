@@ -128,10 +128,18 @@ const KinveyRequester = (function() {
         })
     }
 
+    function getThreePostsForHomeView(){
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appKey + '/posts?limit=3&sort={"_kmd.lmt": -1}',
+            headers: getKinveyUserAuthHeaders()
+        });
+    }
+
     return {
         loginUser, registerUser, logoutUser,
         findAllBooks, createBook, findBookById, editBook, deleteBook,
-        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar
+        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar, getThreePostsForHomeView
     }
 })();
 

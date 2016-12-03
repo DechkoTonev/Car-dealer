@@ -102,7 +102,18 @@ export default class App extends Component {
     }
 
     showHomeView() {
-        this.showView(<HomeView username={this.state.username} />);
+        KinveyRequester.getThreePostsForHomeView()
+            .then(loadThreePostsForHomeViewSuccess.bind(this));
+
+        function loadThreePostsForHomeViewSuccess(posts){
+            this.showView(
+                <HomeView
+                    posts={posts}
+                />
+            );
+        }
+
+
     }
 
     showCarsView() {

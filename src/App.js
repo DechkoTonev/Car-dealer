@@ -265,13 +265,14 @@ export default class App extends Component {
                     title={bookInfo.title}
                     description={bookInfo.description}
                     article={bookInfo.article}
+                    imageUrl={bookInfo.imageUrl}
                 />
             );
         }
     }
 
-    editBook(bookId, title, description, article) {
-        KinveyRequester.editBook(bookId, title, description, article)
+    editBook(bookId, title, description, article, imageUrl) {
+        KinveyRequester.editBook(bookId, title, description, article, imageUrl)
             .then(editBookSuccess.bind(this));
 
         function editBookSuccess() {
@@ -292,6 +293,7 @@ export default class App extends Component {
                     title={bookInfo.title}
                     description={bookInfo.description}
                     article={bookInfo.article}
+                    imageUrl={bookInfo.imageUrl}
                 />
             );
         }
@@ -311,8 +313,8 @@ export default class App extends Component {
         this.showView(<CreateBookView onsubmit={this.createPost.bind(this)} />);
     }
 
-    createPost(title, description, article) {
-        KinveyRequester.createBook(title, description, article)
+    createPost(title, description, imageUrl, article) {
+        KinveyRequester.createBook(title, description, imageUrl, article)
             .then(createPostSuccess.bind(this));
 
         function createPostSuccess() {

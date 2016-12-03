@@ -48,36 +48,36 @@ const KinveyRequester = (function() {
         });
     }
 
-    function findBookById(bookId) {
+    function findBookById(postId) {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "appdata/" + appKey + "/posts/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders()
         });
     }
 
-    function createBook(title, description, article) {
+    function createBook(title, description, imageUrl, article) {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appKey + "/posts",
             headers: getKinveyUserAuthHeaders(),
-            data: { title, description, article }
+            data: { title, description, imageUrl, article }
         });
     }
 
-    function editBook(bookId, title, description, article) {
+    function editBook(postId, title, description, article, imageUrl) {
         return $.ajax({
             method: "PUT",
-            url: baseUrl + "appdata/" + appKey + "/posts/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders(),
-            data: { title, description, article }
+            data: { title, description, article, imageUrl }
         });
     }
 
-    function deleteBook(bookId) {
+    function deleteBook(postId) {
         return $.ajax({
             method: "DELETE",
-            url: baseUrl + "appdata/" + appKey + "/posts/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders()
         });
     }

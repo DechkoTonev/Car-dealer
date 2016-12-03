@@ -4,11 +4,13 @@ import './HomeView.css';
 export default class HomeView extends Component {
     render() {
         let articlesForHomeView = this.props.posts.map(post =>
-                <div className="col-lg-4 callout">
-                    <h2>{post.title}</h2>
-                    <p>{post.description}</p>
-                    <img role="presentation" className="img-responsive" src={post.imageUrl} width="460" height="345" />
+            <div className="col-xs-4 callout">
+                <div className="carImage">
+                    <img role="presentation" className="img-responsive" src={post.imageUrl} />
                 </div>
+                <h2>{post.title}</h2>
+                <p>{post.description}</p>
+            </div>
         );
 
         return (
@@ -19,7 +21,7 @@ export default class HomeView extends Component {
                         <h1>The future start today</h1>
                     </header>
                 </div>
-                <div id="greywrap">
+                <div id="greywrap" className="posts">
                     <div className="row">
                         {articlesForHomeView}
                     </div>

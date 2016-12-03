@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 
 export default class BooksView extends Component {
     render() {
-        let bookRows = this.props.books.map(book =>
-            <tr key={book._id}>
-                <td>{book.title}</td>
-                <td>{book.description}</td>
-                <td>{book.article}</td>
-                {this.getActions(book, this.props.userId)}
+        let postRows = this.props.books.map(post =>
+            <tr key={post._id}>
+                <td>{post.title}</td>
+                <td>{post.description}</td>
+                <td>{post.article}</td>
+                {this.getActions(post, this.props.userId)}
             </tr>
         );
 
         return (
             <div className="books-view">
-                <h1>Books</h1>
+                <h1>Posts</h1>
                 <table className="books-table">
                     <thead>
                         <tr>
@@ -24,22 +24,22 @@ export default class BooksView extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookRows}
+                        {postRows}
                     </tbody>
                 </table>
             </div>
         );
     }
 
-    getActions(book, userId) {
-        if (book._acl.creator === userId)
+    getActions(post, userId) {
+        if (post._acl.creator === userId)
             return (
                 <td>
                     <input type="button" value="Edit"
-                        onClick={this.props.editBookClicked.bind(this, book._id)} />
+                        onClick={this.props.editBookClicked.bind(this, post._id)} />
                     &nbsp;
                     <input type="button" value="Delete"
-                       onClick={this.props.deleteBookClicked.bind(this, book._id)} />
+                       onClick={this.props.deleteBookClicked.bind(this, post._id)} />
                 </td>
             );
         else

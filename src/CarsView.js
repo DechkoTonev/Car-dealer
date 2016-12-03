@@ -41,7 +41,7 @@ export default class CarsView extends  React.Component {
         div = (<section className="section-divider">
             <div className="container" id="portfolio" name="portfolio">
                 <div className="row">
-                    <h1 className="centered">WE SELL GOOD CARS.</h1>
+                    <h1 className="centered">WE CREATE COOL STUFF</h1>
                 </div>
 
                 <div>

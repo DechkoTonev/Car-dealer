@@ -185,7 +185,8 @@ export default class App extends Component {
                 'trustno1',
                 'letmein',
                 '654321',
-                'football'
+                'football',
+                'bai hui'
             ];
 
             if (tooEasyPasswords.includes(pass)) {
@@ -240,7 +241,7 @@ export default class App extends Component {
             .then(loadBooksSuccess.bind(this));
 
         function loadBooksSuccess(books) {
-            this.showInfo("Books loaded.");
+            this.showInfo("Posts loaded.");
             this.showView(
                 <BooksView
                     books={books}
@@ -262,20 +263,20 @@ export default class App extends Component {
                     onsubmit={this.editBook.bind(this)}
                     bookId={bookInfo._id}
                     title={bookInfo.title}
-                    author={bookInfo.author}
                     description={bookInfo.description}
+                    article={bookInfo.article}
                 />
             );
         }
     }
 
-    editBook(bookId, title, author, description) {
-        KinveyRequester.editBook(bookId, title, author, description)
+    editBook(bookId, title, description, article) {
+        KinveyRequester.editBook(bookId, title, description, article)
             .then(editBookSuccess.bind(this));
 
         function editBookSuccess() {
             this.showBooksView();
-            this.showInfo("Book created.");
+            this.showInfo("Post edited.");
         }
     }
 
@@ -289,8 +290,8 @@ export default class App extends Component {
                     onsubmit={this.deleteBook.bind(this)}
                     bookId={bookInfo._id}
                     title={bookInfo.title}
-                    author={bookInfo.author}
                     description={bookInfo.description}
+                    article={bookInfo.article}
                 />
             );
         }
@@ -302,7 +303,7 @@ export default class App extends Component {
 
         function deleteBookSuccess() {
             this.showBooksView();
-            this.showInfo("Book deleted.");
+            this.showInfo("Post deleted.");
         }
     }
 
@@ -316,7 +317,7 @@ export default class App extends Component {
 
         function createBookSuccess() {
             this.showBooksView();
-            this.showInfo("Book created.");
+            this.showInfo("Post created.");
         }
     }
 

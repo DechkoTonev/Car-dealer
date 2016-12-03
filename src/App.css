@@ -5,6 +5,10 @@
     width: 100%;
 }
 
+.img-responsive{
+    margin-left: 15px;
+}
+
 #infoBox, #errorBox, #loadingBox {
     width: 80%;
     margin: 10px auto;

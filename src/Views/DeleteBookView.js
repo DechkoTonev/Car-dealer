@@ -8,17 +8,20 @@ export default class DeleteBookView extends Component {
                 <label>
                     <div>Title:</div>
                     <input type="text" name="title" disabled
-                           defaultValue={this.props.title} />
-                </label>
-                <label>
-                    <div>Author:</div>
-                    <input type="text" name="author" disabled
-                           defaultValue={this.props.author} />
+                           defaultValue={this.props.title}
+                           ref={e => this.titleField = e} />
                 </label>
                 <label>
                     <div>Description:</div>
-                    <textarea name="description" rows="10" disabled
-                              defaultValue={this.props.description} />
+                    <input type="text" name="description" disabled
+                           ref={e => this.descriptionField = e}
+                           defaultValue={this.props.description}/>
+                </label>
+                <label>
+                    <div>Article:</div>
+                    <textarea name="article" rows="10" disabled
+                              ref={e => this.articleField = e}
+                              defaultValue={this.props.article}/>
                 </label>
                 <div>
                     <input type="submit" value="Delete" />

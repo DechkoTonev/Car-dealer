@@ -11,14 +11,14 @@ export default class CreateBookView extends Component {
                         ref={e => this.titleField = e} />
                 </label>
                 <label>
-                    <div>Author:</div>
-                    <input type="text" name="author" required
-                       ref={e => this.authorField = e} />
+                    <div>Short description:</div>
+                    <input type="text" name="description" required
+                       ref={e => this.descriptionField = e} />
                 </label>
                 <label>
-                    <div>Description:</div>
-                    <textarea name="description" rows="10"
-                        ref={e => this.descriptionField = e} />
+                    <div>Article:</div>
+                    <textarea name="article" rows="10"
+                        ref={e => this.articleField = e} />
                 </label>
                 <div>
                     <input type="submit" value="Create" />
@@ -31,8 +31,8 @@ export default class CreateBookView extends Component {
         event.preventDefault();
         this.props.onsubmit(
             this.titleField.value,
-            this.authorField.value,
             this.descriptionField.value,
+            this.articleField.value
         );
     }
 }

@@ -5,8 +5,8 @@ export default class BooksView extends Component {
         let bookRows = this.props.books.map(book =>
             <tr key={book._id}>
                 <td>{book.title}</td>
-                <td>{book.author}</td>
                 <td>{book.description}</td>
+                <td>{book.article}</td>
                 {this.getActions(book, this.props.userId)}
             </tr>
         );
@@ -18,8 +18,8 @@ export default class BooksView extends Component {
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Author</th>
                             <th>Description</th>
+                            <th>Article</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

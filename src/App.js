@@ -240,11 +240,11 @@ export default class App extends Component {
         KinveyRequester.findAllBooks()
             .then(loadBooksSuccess.bind(this));
 
-        function loadBooksSuccess(books) {
+        function loadBooksSuccess(posts) {
             this.showInfo("Posts loaded.");
             this.showView(
                 <BooksView
-                    books={books}
+                    books={posts}
                     userId={this.state.userId}
                     editBookClicked={this.prepareBookForEdit.bind(this)}
                     deleteBookClicked={this.confirmBookDelete.bind(this)}
@@ -308,14 +308,14 @@ export default class App extends Component {
     }
 
     showCreateBookView() {
-        this.showView(<CreateBookView onsubmit={this.createBook.bind(this)} />);
+        this.showView(<CreateBookView onsubmit={this.createPost.bind(this)} />);
     }
 
-    createBook(title, author, description) {
-        KinveyRequester.createBook(title, author, description)
-            .then(createBookSuccess.bind(this));
+    createPost(title, description, article) {
+        KinveyRequester.createBook(title, description, article)
+            .then(createPostSuccess.bind(this));
 
-        function createBookSuccess() {
+        function createPostSuccess() {
             this.showBooksView();
             this.showInfo("Post created.");
         }

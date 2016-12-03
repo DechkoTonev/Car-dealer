@@ -112,10 +112,18 @@ const KinveyRequester = (function() {
         });
     }
 
-    function getCarImage(carId) {
+    function getCarsImage(query) {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "blob/" + appKey,
+            url: baseUrl + "blob/" + appKey + "?query=" + query,
+            headers: getKinveyUserAuthHeaders()
+        })
+    }
+
+    function deleteCar(query) {
+        return $.ajax({
+            method: "DELETE",
+            url: baseUrl + "appdata/" + appKey + "/boughtCars?query=" + query + "&limit=1",
             headers: getKinveyUserAuthHeaders()
         })
     }
@@ -123,7 +131,7 @@ const KinveyRequester = (function() {
     return {
         loginUser, registerUser, logoutUser,
         findAllBooks, createBook, findBookById, editBook, deleteBook,
-        loadCars, markCarAsBought, findUserCars
+        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar
     }
 })();
 

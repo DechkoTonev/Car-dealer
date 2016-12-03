@@ -232,9 +232,6 @@ export default class App extends Component {
                 username: null, userId: null
             });
         this.showInfo('Logout successful.');
-        console.dir(this.state);
-        console.dir(sessionStorage);
-        
         this.showHomeView();
     }
 
@@ -334,17 +331,57 @@ export default class App extends Component {
     }
 
     showMyCarsView() {
-        KinveyRequester.findAllBooks()
-            .then(loadBooksSuccess.bind(this));
+        let userId = sessionStorage.getItem("userId");
+        KinveyRequester.findUserCars(userId)
+            .then(FindCarsSuccess.bind(this));
 
-        function loadBooksSuccess(cars) {
-            this.showInfo("Your cars are loaded.");
-            this.showView(
-                <UserView
-                    userCars={cars}
-                    deleteBookClicked={this.confirmBookDelete.bind(this)}
-                />
-            );
+        function FindCarsSuccess(cars) {
+            if(cars.length < 1) {
+                loadCarsSuccessful.apply(this, cars);
+                return;
+            }
+
+            let carsId = [];
+            cars.forEach(car => {
+                let obj = {
+                    "_id": car.carId
+                };
+                carsId.push(obj)
+            });
+
+            let query = {
+                "$or": carsId
+            };
+
+            query = JSON.stringify(query);
+            KinveyRequester.getCarsImage(query)
+                .then(loadCarsSuccessful.bind(this));
+
+            function loadCarsSuccessful(cars) {
+                this.showInfo("Your cars are loaded.");
+                this.showView(
+                    <UserView
+                        userCars={cars}
+                        deleteCarClicked={this.deleteCar.bind(this)}
+                    />
+                );
+            }
+        }
+    }
+
+    deleteCar(carId, userId) {
+        let query = {
+            "carId": carId,
+            "userId": userId
+        };
+
+        query = JSON.stringify(query);
+        KinveyRequester.deleteCar(query)
+            .then(carSuccessfullyDeleted.bind(this));
+
+        function carSuccessfullyDeleted() {
+            this.showInfo("Car successfully removed from bucket.");
+            this.showMyCarsView();
         }
     }
 }

@@ -1,0 +1,50 @@
+.create-book-form, .edit-book-form, .delete-book-form{
+    margin-left: 6em;
+}
+.form{
+    width: 50%;
+    display: block;
+    padding: 15px;
+    background:#f8f8f8;
+    border:1px solid rgba(0, 0, 0, 0.075);
+    margin-bottom:25px;
+    color:#727272 !important;
+    font-size:13px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.form:hover{
+    border:1px solid #8BC3A3;
+}
+
+.form:focus{
+    color: white;
+    outline: none;
+    border:1px solid #8BC3A3;
+}
+
+
+.form-btn{
+    width:180px;
+    display: block;
+    height: auto;
+    padding:15px;
+    color:#fff;
+    background:#8BC3A3;
+    border:none;
+    border-radius:3px;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.form-btn:hover{
+    background:#111;
+    color: white;
+    border:none;
+}
+
+.form-btn:active{
+    opacity: 0.9;
+}

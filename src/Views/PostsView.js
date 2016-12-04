@@ -6,7 +6,7 @@ export default class PostsView extends Component {
         return (
             <div className="container-fluid">
                 <br/><br/>
-                <div class="row">
+                <div className="row">
                     <div class="col-sm-8">
                         <h2>{this.props.postTitle}</h2><br/>
                         <h4>{this.props.postDescription}</h4><br/>

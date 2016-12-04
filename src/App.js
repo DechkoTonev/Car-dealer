@@ -34,23 +34,23 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <header>
-                    <NavigationBar
-                        username={this.state.username}
-                        homeClicked={this.showHomeView.bind(this)}
-                        loginClicked={this.showLoginView.bind(this)}
-                        registerClicked={this.showRegisterView.bind(this)}
-                        booksClicked={this.showBooksView.bind(this)}
-                        createBookClicked={this.showCreateBookView.bind(this)}
-                        logoutClicked={this.logout.bind(this)}
-                        showCarsClicked={this.showCarsView.bind(this)}
-                        myCarsClicked={this.showMyCarsView.bind(this)}/>
-                </header>
-                <div className="notification-bar">
-                    <div id="infoBox"></div>
-                    <div id="errorBox"></div>
-                    <div id="loadingBox"></div>
-                </div>
+                    <header>
+                        <NavigationBar
+                            username={this.state.username}
+                            homeClicked={this.showHomeView.bind(this)}
+                            loginClicked={this.showLoginView.bind(this)}
+                            registerClicked={this.showRegisterView.bind(this)}
+                            booksClicked={this.showBooksView.bind(this)}
+                            createBookClicked={this.showCreateBookView.bind(this)}
+                            logoutClicked={this.logout.bind(this)}
+                            showCarsClicked={this.showCarsView.bind(this)}
+                            myCarsClicked={this.showMyCarsView.bind(this)}/>
+                    </header>
+                    <div className="notification-bar">
+                            <div id="infoBox"></div>
+                            <div id="errorBox"></div>
+                            <div id="loadingBox"></div>
+                    </div>
                 <main id="main"></main>
                 <Footer />
             </div>
@@ -163,7 +163,7 @@ export default class App extends Component {
 
         function loginSuccess(userInfo) {
             this.saveAuthInSession(userInfo);
-            this.showHomeView();
+            this.showBooksView();
             this.showInfo("Login successful.");
         }
     }
@@ -225,13 +225,13 @@ export default class App extends Component {
                 return false;
             }
 
-            //test Username
+			//test Username
             if(name.length < 4) {
                 this.showError("Username must best at least 4 symbols");
                 return false;
             }
-
-            //test Email
+			
+			//test Email
             if(!/^[A-Za-z\d]+@[a-z]+\.[a-z]+$/g.test(email)){
                 this.showError("Enter a valid email address.");
                 return false;
@@ -246,8 +246,8 @@ export default class App extends Component {
 
             function registerSuccess(userInfo) {
                 this.saveAuthInSession(userInfo);
-                this.showHomeView();
-                KinveyRequester.sendRegisterMail(email);
+                this.showBooksView();
+				KinveyRequester.sendRegisterMail(email);
                 this.showInfo("User registration successful.");
             }
         }
@@ -257,7 +257,7 @@ export default class App extends Component {
         sessionStorage.setItem('authToken', userInfo._kmd.authtoken);
         sessionStorage.setItem('userId', userInfo._id);
         sessionStorage.setItem('username', userInfo.username);
-        sessionStorage.setItem('email', userInfo.email);
+		sessionStorage.setItem('email', userInfo.email);
 
         // This will update the entire app UI (e.g. the navigation bar)
         this.setState({
@@ -270,8 +270,8 @@ export default class App extends Component {
         KinveyRequester.logoutUser();
         sessionStorage.clear();
         this.setState({
-            username: null, userId: null
-        });
+                username: null, userId: null
+            });
         this.showInfo('Logout successful.');
         this.showHomeView();
     }
@@ -365,10 +365,10 @@ export default class App extends Component {
 
     markCarAsBought(carId, userId) {
         KinveyRequester.markCarAsBought(carId, userId)
-            .then(redirectUserToHisPage.bind(this));
+            .then(redirectUserToHisPage.bind(this))
 
         function redirectUserToHisPage() {
-            let email = sessionStorage.email;
+			let email = sessionStorage.email;
             KinveyRequester.sendPurchasedCarMail(email);
             this.showInfo("Car Bought Successfully. Waiting for confirmation.");
             this.showMyCarsView();

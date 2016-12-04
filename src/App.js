@@ -34,23 +34,23 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                    <header>
-                        <NavigationBar
-                            username={this.state.username}
-                            homeClicked={this.showHomeView.bind(this)}
-                            loginClicked={this.showLoginView.bind(this)}
-                            registerClicked={this.showRegisterView.bind(this)}
-                            booksClicked={this.showBooksView.bind(this)}
-                            createBookClicked={this.showCreateBookView.bind(this)}
-                            logoutClicked={this.logout.bind(this)}
-                            showCarsClicked={this.showCarsView.bind(this)}
-                            myCarsClicked={this.showMyCarsView.bind(this)}/>
-                    </header>
-                    <div className="notification-bar">
-                            <div id="infoBox"></div>
-                            <div id="errorBox"></div>
-                            <div id="loadingBox"></div>
-                    </div>
+                <header>
+                    <NavigationBar
+                        username={this.state.username}
+                        homeClicked={this.showHomeView.bind(this)}
+                        loginClicked={this.showLoginView.bind(this)}
+                        registerClicked={this.showRegisterView.bind(this)}
+                        booksClicked={this.showBooksView.bind(this)}
+                        createBookClicked={this.showCreateBookView.bind(this)}
+                        logoutClicked={this.logout.bind(this)}
+                        showCarsClicked={this.showCarsView.bind(this)}
+                        myCarsClicked={this.showMyCarsView.bind(this)}/>
+                </header>
+                <div className="notification-bar">
+                    <div id="infoBox"></div>
+                    <div id="errorBox"></div>
+                    <div id="loadingBox"></div>
+                </div>
                 <main id="main"></main>
                 <Footer />
             </div>
@@ -163,7 +163,7 @@ export default class App extends Component {
 
         function loginSuccess(userInfo) {
             this.saveAuthInSession(userInfo);
-            this.showBooksView();
+            this.showHomeView();
             this.showInfo("Login successful.");
         }
     }
@@ -261,8 +261,8 @@ export default class App extends Component {
         KinveyRequester.logoutUser();
         sessionStorage.clear();
         this.setState({
-                username: null, userId: null
-            });
+            username: null, userId: null
+        });
         this.showInfo('Logout successful.');
         this.showHomeView();
     }

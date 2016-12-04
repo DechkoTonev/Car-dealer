@@ -17,6 +17,7 @@ import DeleteBookView from './Views/DeleteBookView';
 import BooksView from './Views/BooksView';
 import CarsView from './Views/CarsView'
 import UserView from './Views/UserView'
+import PostsView from './Views/PostsView'
 
 import KinveyRequester from './KinveyRequester';
 import $ from 'jquery';
@@ -109,10 +110,29 @@ export default class App extends Component {
             this.showView(
                 <HomeView
                     posts={posts}
+                    readArticleClicked={this.showArticleView.bind(this)}
                 />
             );
         }
 
+
+    }
+
+    showArticleView(postId){
+        KinveyRequester.findBookById(postId)
+            .then(loadArticleSuccess.bind(this));
+
+        function loadArticleSuccess(postInfo){
+            this.showView(
+                <PostsView
+                    postId={postInfo._id}
+                    postTitle={postInfo.title}
+                    postDescription={postInfo.description}
+                    postArticle={postInfo.article}
+                    postImageUrl={postInfo.imageUrl}
+                />
+            )
+        }
 
     }
 

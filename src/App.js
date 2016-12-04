@@ -37,6 +37,7 @@ export default class App extends Component {
                     <header>
                         <NavigationBar
                             username={this.state.username}
+                            role={this.state.role}
                             homeClicked={this.showHomeView.bind(this)}
                             loginClicked={this.showLoginView.bind(this)}
                             registerClicked={this.showRegisterView.bind(this)}
@@ -262,7 +263,8 @@ export default class App extends Component {
         // This will update the entire app UI (e.g. the navigation bar)
         this.setState({
             username: userInfo.username,
-            userId: userInfo._id
+            userId: userInfo._id,
+            role: userInfo.role
         });
     }
 

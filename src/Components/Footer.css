@@ -1,0 +1,11 @@
+.footer{
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    text-align: center;
+    font-size: 2em;
+    font-family: Lato;
+    font-weight: 600;
+    background: #222;
+    border-color: #080808;
+    color: #999;
+}

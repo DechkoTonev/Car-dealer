@@ -17,12 +17,12 @@ const KinveyRequester = (function() {
         });
     }
 
-    function registerUser(username, password, email) {
+    function registerUser(username, password) {
         return $.ajax({
             method: "POST",
             url: baseUrl + "user/" + appKey + "/",
             headers: kinveyAppAuthHeaders,
-            data: { username, password, email }
+            data: { username, password }
         });
     }
 
@@ -43,41 +43,41 @@ const KinveyRequester = (function() {
     function findAllBooks() {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "appdata/" + appKey + "/books",
+            url: baseUrl + "appdata/" + appKey + "/posts",
             headers: getKinveyUserAuthHeaders()
         });
     }
 
-    function findBookById(bookId) {
+    function findBookById(postId) {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "appdata/" + appKey + "/books/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders()
         });
     }
 
-    function createBook(title, author, description) {
+    function createBook(title, description, imageUrl, article) {
         return $.ajax({
             method: "POST",
-            url: baseUrl + "appdata/" + appKey + "/books",
+            url: baseUrl + "appdata/" + appKey + "/posts",
             headers: getKinveyUserAuthHeaders(),
-            data: { title, author, description }
+            data: { title, description, imageUrl, article }
         });
     }
 
-    function editBook(bookId, title, author, description) {
+    function editBook(postId, title, description, article, imageUrl) {
         return $.ajax({
             method: "PUT",
-            url: baseUrl + "appdata/" + appKey + "/books/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders(),
-            data: { title, author, description }
+            data: { title, description, article, imageUrl }
         });
     }
 
-    function deleteBook(bookId) {
+    function deleteBook(postId) {
         return $.ajax({
             method: "DELETE",
-            url: baseUrl + "appdata/" + appKey + "/books/" + bookId,
+            url: baseUrl + "appdata/" + appKey + "/posts/" + postId,
             headers: getKinveyUserAuthHeaders()
         });
     }
@@ -132,41 +132,14 @@ const KinveyRequester = (function() {
         return $.ajax({
             method: "GET",
             url: baseUrl + "appdata/" + appKey + '/posts?limit=3&sort={"_kmd.lmt": -1}',
-            headers: {
-                'Authorization': "Basic " + btoa(appKey + ":6cecac00119b453fb8ce467fe44511a5"), // TODO: Nqkak da se izbegne.
-            }
-        });
-    }
-
-    function sendRegisterMail(email) {
-        return $.ajax({
-            method: "POST",
-            url: baseUrl + "rpc/" + appKey + '/custom/registrationMail',
-            headers: getKinveyUserAuthHeaders(),
-            data: {
-                "email": email
-            }
-        });
-    }
-
-    function sendPurchasedCarMail(email) {
-        return $.ajax({
-            method: "POST",
-            url: baseUrl + "rpc/" + appKey + '/custom/purchaseCarMail',
-            headers: getKinveyUserAuthHeaders(),
-            data: {
-                "email": email
-            }
+            headers: getKinveyUserAuthHeaders()
         });
     }
 
     return {
         loginUser, registerUser, logoutUser,
-        findAllBooks, createBook, findBookById,
-        editBook, deleteBook, loadCars,
-        markCarAsBought, findUserCars, getCarsImage,
-        deleteCar, getThreePostsForHomeView, sendRegisterMail,
-        sendPurchasedCarMail
+        findAllBooks, createBook, findBookById, editBook, deleteBook,
+        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar, getThreePostsForHomeView
     }
 })();
 

@@ -26,25 +26,3 @@
 }
 
 
-.form-btn{
-    width:180px;
-    display: block;
-    height: auto;
-    padding:15px;
-    color:#fff;
-    background:#8BC3A3;
-    border:none;
-    border-radius:3px;
-    margin-top: 2em;
-    margin-bottom: 2em;
-}
-
-.form-btn:hover{
-    background:#111;
-    color: white;
-    border:none;
-}
-
-.form-btn:active{
-    opacity: 0.9;
-}

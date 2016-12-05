@@ -1,0 +1,23 @@
+.title-table {
+    width: 10%;
+    padding-left: 10px;
+    padding-bottom: 20px;
+
+}
+
+.description-table {
+    width: 18%;
+    padding-left: 10px;
+    padding-bottom: 20px;
+
+}
+
+.article-table{
+    width: 35%;
+    padding-left: 10px;
+    padding-bottom: 20px;
+}
+
+.image-table{
+    width: 25%;
+}

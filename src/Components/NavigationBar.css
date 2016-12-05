@@ -1,0 +1,7 @@
+.loggedInUser{
+    float: right;
+    position: fixed;
+    display: block;
+    margin-top: 0.8em;
+    margin-left: 29em;
+}

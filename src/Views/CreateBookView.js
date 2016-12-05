@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './FormViews.css'
+import '../App.css'
 
 export default class CreateBookView extends Component {
     render() {

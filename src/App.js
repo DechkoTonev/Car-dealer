@@ -5,6 +5,7 @@ import './css/bootstrap.css';
 import './css/main.css';
 import './css/animate-custom.css';
 import './css/icomoon.css';
+import './css/notification.css';
 
 import NavigationBar from './Components/NavigationBar';
 import Footer from './Components/Footer';
@@ -18,6 +19,8 @@ import BooksView from './Views/BooksView';
 import CarsView from './Views/CarsView'
 import UserView from './Views/UserView'
 import PostsView from './Views/PostsView'
+import AdminPanel from './Views/AdminPanelView';
+import toastr from 'toastr';
 
 import KinveyRequester from './KinveyRequester';
 import $ from 'jquery';
@@ -37,7 +40,7 @@ export default class App extends Component {
                     <header>
                         <NavigationBar
                             username={this.state.username}
-                            role={this.state.role}
+                            userId={this.state.userId}
                             homeClicked={this.showHomeView.bind(this)}
                             loginClicked={this.showLoginView.bind(this)}
                             registerClicked={this.showRegisterView.bind(this)}
@@ -45,7 +48,8 @@ export default class App extends Component {
                             createBookClicked={this.showCreateBookView.bind(this)}
                             logoutClicked={this.logout.bind(this)}
                             showCarsClicked={this.showCarsView.bind(this)}
-                            myCarsClicked={this.showMyCarsView.bind(this)}/>
+                            myCarsClicked={this.showMyCarsView.bind(this)}
+                            showAdminPanelClickec={this.showAdminPanelView.bind(this)}/>
                     </header>
                     <div className="notification-bar">
                             <div id="infoBox"></div>
@@ -87,14 +91,47 @@ export default class App extends Component {
     }
 
     showInfo(message) {
-        $('#infoBox').text(message).show();
-        setTimeout(function() {
-            $('#infoBox').fadeOut();
-        }, 4000);
+        toastr["success"](message, "Success");
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "show",
+            "hideMethod": "fadeOut"
+        };
     }
 
     showError(errorMsg) {
-        $('#errorBox').text("Error: " + errorMsg).show();
+        toastr["error"](errorMsg, "Error.");
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "200000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "show",
+            "hideMethod": "fadeOut"
+        };
     }
 
     showView(reactViewComponent) {
@@ -164,7 +201,7 @@ export default class App extends Component {
 
         function loginSuccess(userInfo) {
             this.saveAuthInSession(userInfo);
-            this.showBooksView();
+            this.showHomeView();
             this.showInfo("Login successful.");
         }
     }
@@ -247,8 +284,8 @@ export default class App extends Component {
 
             function registerSuccess(userInfo) {
                 this.saveAuthInSession(userInfo);
-                this.showBooksView();
 				KinveyRequester.sendRegisterMail(email);
+                this.showHomeView();
                 this.showInfo("User registration successful.");
             }
         }
@@ -264,7 +301,6 @@ export default class App extends Component {
         this.setState({
             username: userInfo.username,
             userId: userInfo._id,
-            role: userInfo.role
         });
     }
 
@@ -430,5 +466,9 @@ export default class App extends Component {
             this.showInfo("Car successfully removed from bucket.");
             this.showMyCarsView();
         }
+    }
+
+    showAdminPanelView() {
+        this.showView(<AdminPanel />)
     }
 }

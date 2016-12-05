@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import './BooksView.css'
+import '../App.css'
 
 export default class BooksView extends Component {
     render() {
         let postRows = this.props.books.map(post =>
-            <tr key={post._id}>
-                <td>{post.title}</td>
-                <td>{post.description}</td>
-                <td>{post.article}</td>
-                <td><img src={post.imageUrl} role="presentation" className="img-responsive" /></td>
+            <tr key={post._id} className="table-tr" >
+                <td className="title-table">{post.title}</td>
+                <td className="description-table">{post.description}</td>
+                <td className="article-table">{post.article}</td>
+                <td className="image-table" ><img src={post.imageUrl} role="presentation" className="img-responsive" /></td>
                 {this.getActions(post, this.props.userId)}
             </tr>
         );
@@ -37,10 +39,10 @@ export default class BooksView extends Component {
         if (post._acl.creator === userId)
             return (
                 <td>
-                    <input type="button" value="Edit"
+                    <input type="button" value="Edit" className="form-btn-list"
                         onClick={this.props.editBookClicked.bind(this, post._id)} />
                     &nbsp;
-                    <input type="button" value="Delete"
+                    <input type="button" value="Delete" className="form-btn-list"
                        onClick={this.props.deleteBookClicked.bind(this, post._id)} />
                 </td>
             );

@@ -11,7 +11,7 @@ export default class HomeView extends Component {
                     </div>
                     <h2>{post.title}</h2>
                     <p>{post.description}</p>
-                    <input type="button" value="Read more.." className="button-home"
+                    <input type="button" value="Read more.." className="form-btn-home"
                            onClick={this.props.readArticleClicked.bind(this, post._id)} />
                 </div>
             </div>

@@ -94,7 +94,9 @@ const KinveyRequester = (function() {
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appKey + "/boughtCars",
-            headers: getKinveyUserAuthHeaders(),
+            headers: {
+                'Authorization': "Basic " + btoa("a:A"),
+            },
             data: {carId, userId}
         });
     }
@@ -158,10 +160,61 @@ const KinveyRequester = (function() {
         });
     }
 
+    function getPurchasesWaitingConfirmation() {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appKey + '/boughtCars',
+            headers: getKinveyUserAuthHeaders(),
+        });
+    }
+
+    function getPurchaseInformation(id) {
+        let query = {'_id': id};
+        query = JSON.stringify(query);
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appKey + '/boughtCars?query=' + query,
+            headers: getKinveyUserAuthHeaders(),
+        });
+    }
+
+    function moveDataToConfirmedPurchases(username, userEmail, userId) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "appdata/" + appKey + '/confirmedPurchases' ,
+            headers: getKinveyUserAuthHeaders(),
+            data: {userId, username, userEmail}
+        });
+    }
+
+    function removeDataFromBoughtCars(id) {
+        return $.ajax({
+            method: "DELETE",
+            url: baseUrl + "appdata/" + appKey + '/boughtCars/' + id,
+            headers: {
+                'Authorization': "Basic " + btoa("a:A"),
+            }
+        });
+    }
+
+    function sendConfirmPurchaseMail(email) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "rpc/" + appKey + '/custom/confirmCarPurchase',
+            headers: getKinveyUserAuthHeaders(),
+            data: {
+                "email": email
+            }
+        });
+    }
+
     return {
         loginUser, registerUser, logoutUser,
         findAllBooks, createBook, findBookById, editBook, deleteBook,
-        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar, getThreePostsForHomeView, sendPurchasedCarMail, sendRegisterMail
+        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar,
+        getThreePostsForHomeView, sendPurchasedCarMail, sendRegisterMail,
+        getPurchasesWaitingConfirmation, getPurchaseInformation, moveDataToConfirmedPurchases,
+        removeDataFromBoughtCars, sendConfirmPurchaseMail
     }
 })();
 

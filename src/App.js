@@ -469,6 +469,37 @@ export default class App extends Component {
     }
 
     showAdminPanelView() {
-        this.showView(<AdminPanel />)
+        KinveyRequester.getPurchasesWaitingConfirmation()
+            .then(loadingPurchasesSuccess.bind(this));
+
+        function loadingPurchasesSuccess(data) {
+            this.showInfo("Waiting purchases were successfully shown.")
+            this.showView(<AdminPanel
+                purchases={data}
+                carApproveClicked={this.carApproved.bind(this)}
+                carDisapproveClicked={this.carNotApproved.bind(this)}/>)
+        }
     }
+
+    carApproved(id, userEmail) {
+        KinveyRequester.getPurchaseInformation(id)
+            .then(getPurchaseInformationSuccessful.bind(this));
+
+        function getPurchaseInformationSuccessful(data) {
+            data = data[0];
+            KinveyRequester.moveDataToConfirmedPurchases(data.username, data.userEmail, data.userId)
+                .then(removeDataFromBoughtCarsSendEmailAndReloadPage.bind(this));
+
+            function removeDataFromBoughtCarsSendEmailAndReloadPage() {
+                KinveyRequester.sendConfirmPurchaseMail(userEmail);
+                KinveyRequester.removeDataFromBoughtCars(id)
+                    .then(this.showAdminPanelView())
+            }
+        }
+    }
+
+    carNotApproved(id, email) {
+        console.dir(email);
+    }
+
 }

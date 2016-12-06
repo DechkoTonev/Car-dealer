@@ -1,7 +1,6 @@
 import React from 'react';
 import './CarsView.css';
 import $ from 'jquery';
-import '../App.css'
 
 export default class CarsView extends  React.Component {
     componentDidMount() {
@@ -16,24 +15,20 @@ export default class CarsView extends  React.Component {
         let carsImages = [];
         let div;
         if(this.props.cars) {
-            carsImages = this.props.cars.map(car =>
-                <div className="col-md-4" key={car._id}>
+            carsImages = this.props.cars.map(carImage =>
+                <div className="col-md-4" key={carImage._id}>
                     <div className="grid mask">
                         <figure>
-                            <div className="test-under-picture"><p className="title-showroom">Brand:</p> <p className="data-showroom">{car.brand}</p></div>
-                            <div className="crop">
-                                <img src={car.imageUrl} role="presentation" />
-                            </div>
-                            <div className="test-under-picture"><p className="title-showroom">Model:</p> <p className="data-showroom">{car.model}</p></div>
-                            <div className="test-under-picture"><p className="title-showroom">Price:</p> <p className="data-showroom">{car.price}$</p></div>
+                            <img src={carImage._downloadURL}
+                                 role="presentation"/>
                         </figure>
                     </div>
                     <div className="btnBuyCar">
                         <input type="button"
-                               className="btnBuyCar btn btn-info form-btn-home"
+                               className="btnBuyCar btn btn-info"
                                value={'Buy this car.'}
                                id="buyCar"
-                        onClick={this.props.buyCarClicked.bind(this, car._id, sessionStorage.getItem("userId"), car.brand, car.model, car.imageUrl, car.price)} />
+                        onClick={this.props.buyCarClicked.bind(this, carImage._id, sessionStorage.getItem("userId"))} />
                     </div>
                 </div>
             );

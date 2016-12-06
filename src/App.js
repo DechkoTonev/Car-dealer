@@ -50,7 +50,7 @@ export default class App extends Component {
                             createCarClicked={this.showCreateCarView.bind(this)}
                             logoutClicked={this.logout.bind(this)}
                             showCarsClicked={this.showCarsView.bind(this)}
-                            //myCarsClicked={this.showMyCarsView.bind(this)}
+                            myCarsClicked={this.showMyCarsView.bind(this)}
                             adminPanelClicked={this.showAdminPanelView.bind(this)}/>
                     </header>
                     <div className="notification-bar">
@@ -199,7 +199,6 @@ export default class App extends Component {
         }
 
     }
-
     showCarsView() {
         KinveyRequester.loadCars()
             .then(loadCarsSuccess.bind(this));
@@ -439,21 +438,21 @@ export default class App extends Component {
         }
     }
 
-    //showMyCarsView() {
-    //    let userId = sessionStorage.getItem("userId");
-    //    KinveyRequester.findUserCars(userId)
-    //        .then(FindCarsSuccess.bind(this));
-    //
-    //        function FindCarsSuccess(cars) {
-    //            this.showInfo("Your cars are loaded.");
-    //            this.showView(
-    //                <UserView
-    //                    userCars={cars}
-    //                    deleteCarClicked={this.deleteCar.bind(this)}
-    //                />
-    //            );
-    //        }
-    //    }
+    showMyCarsView() {
+        let userId = sessionStorage.getItem("userId");
+        KinveyRequester.findUserCars(userId)
+            .then(FindCarsSuccess.bind(this));
+
+            function FindCarsSuccess(cars) {
+                this.showInfo("Your cars are loaded.");
+                this.showView(
+                    <UserView
+                        userCars={cars}
+                        deleteCarClicked={this.deleteCar.bind(this)}
+                    />
+                );
+            }
+        }
 
     showAdminPanelView() {
         KinveyRequester.getAllPurchases()
@@ -468,12 +467,8 @@ export default class App extends Component {
     }
 
     disapprovedPurchase(purchaseId, userEmail) {
-        let query = {
-            "_id": purchaseId
-        };
-        query = JSON.stringify(query);
         KinveyRequester.sendDisapprovedPurchaseMail(userEmail);
-        KinveyRequester.deleteCar(query)
+        KinveyRequester.deleteCar(purchaseId)
             .then(successDelete.bind(this));
 
         function successDelete() {
@@ -483,12 +478,8 @@ export default class App extends Component {
     }
 
     approvedPurchase(purchaseId, userEmail) {
-        let query = {
-            "_id": purchaseId
-        };
-        query = JSON.stringify(query);
         KinveyRequester.sendApprovedPurchaseMail(userEmail);
-        KinveyRequester.deleteCar(query)
+        KinveyRequester.deleteCar(purchaseId)
             .then(successDelete.bind(this));
 
         function successDelete() {
@@ -496,23 +487,15 @@ export default class App extends Component {
             this.showAdminPanelView();
         }
     }
+
+    deleteCar(carId ) {
+
+        KinveyRequester.deleteCar(carId)
+            .then(carSuccessfullyDeleted.bind(this));
+
+        function carSuccessfullyDeleted() {
+            this.showInfo("Car successfully removed from bucket.");
+            this.showMyCarsView();
+        }
+    }
 }
-
-
-    //deleteCar(carId, userId) {
-    //    let query = {
-    //        "carId": carId,
-    //        "userId": userId
-    //    };
-    //
-    //    query = JSON.stringify(query);
-    //    KinveyRequester.deleteCar(query)
-    //        .then(carSuccessfullyDeleted.bind(this));
-    //
-    //    function carSuccessfullyDeleted() {
-    //        this.showInfo("Car successfully removed from bucket.");
-    //        this.showMyCarsView();
-    //    }
-    //}
-
-//}

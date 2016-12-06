@@ -139,10 +139,10 @@ const KinveyRequester = (function() {
         });
     }
 
-    function deleteCar(query) {
+    function deleteCar(id) {
         return $.ajax({
             method: "DELETE",
-            url: baseUrl + "appdata/" + appKey + "/boughtCars?query=" + query + "&limit=1",
+            url: baseUrl + "appdata/" + appKey + "/boughtCars/" + id,
             headers: getKinveyUserAuthHeaders()
         })
     }

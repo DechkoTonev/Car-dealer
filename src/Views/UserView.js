@@ -4,8 +4,8 @@ import './UserView.css';
 export default class UserView extends React.Component {
     render() {
         let row;
-        let cars = this.props.userCars
-        if(cars === undefined) {
+        let cars = this.props.userCars;
+        if(cars[0] === undefined) {
             row = <div className="image-div">
                 <div className="row" >
                     <div className="col-lg-12">
@@ -20,12 +20,11 @@ export default class UserView extends React.Component {
 
 
         function buildRow(car) {
-            console.log(car)
-            return <div className="image-div" key={car._downloadURL}>
+            return <div className="image-div" key={car._id}>
                 <div className="row" >
                     <div className="col-xs-6 centered">
                         <img className="img-responsive"
-                             src={car._downloadURL}
+                             src={car.carImage}
                              role="presentation"/>
                     </div>
                     <div className="col-lg-4">
@@ -34,7 +33,7 @@ export default class UserView extends React.Component {
                         Your purchase will be approved as soon as possible.
                         Wait a call from us<p>
                         <a className="btn btn-danger"
-                              onClick={this.props.deleteCarClicked.bind(this, car._id, sessionStorage.getItem("userId"))}>Remove from bucket.</a></p>
+                              onClick={this.props.deleteCarClicked.bind(this, car._id)}>Remove from bucket.</a></p>
                     </div>
                 </div>
             </div>

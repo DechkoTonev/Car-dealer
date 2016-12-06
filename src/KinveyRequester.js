@@ -32,6 +32,13 @@ const KinveyRequester = (function() {
         };
     }
 
+    function getKinveyUserAuthHeadersWithContentTypeJSon() {
+        return {
+            'Authorization': "Kinvey " + sessionStorage.getItem('authToken'),
+            "Content-Type": "application/json"
+        };
+    }
+
     function logoutUser() {
         return $.ajax({
             method: "POST",
@@ -65,6 +72,15 @@ const KinveyRequester = (function() {
         });
     }
 
+    function createCar(brand, model, imageUrl, price){
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "appdata/" + appKey + "/cars",
+            headers: getKinveyUserAuthHeaders(),
+            data: { brand, model, imageUrl, price}
+        });
+    }
+
     function editBook(postId, title, description, article, imageUrl) {
         return $.ajax({
             method: "PUT",
@@ -81,43 +97,46 @@ const KinveyRequester = (function() {
             headers: getKinveyUserAuthHeaders()
         });
     }
-    
+
     function loadCars() {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "blob/" + appKey,
+            url: baseUrl + "appdata/" + appKey + "/cars",
             headers: getKinveyUserAuthHeaders()
-        })
+        });
     }
 
-    function markCarAsBought(carId, userId) {
+    function markCarAsBought(carId, userId, carBrand, carModel, carImage, carPrice, email, username) {
+        let obj = {
+            "carId": carId,
+            "userId": userId,
+            "carBrand":  carBrand,
+            "carModel": carModel,
+            "carImage":  carImage,
+            "carPrice": carPrice,
+            "email": email,
+            "username": username,
+            "_acl" : {
+                "w": ["5841ac6200a5907e7dd6fe90"]
+            }
+        };
+
+        obj = JSON.stringify(obj);
+
         return $.ajax({
             method: "POST",
             url: baseUrl + "appdata/" + appKey + "/boughtCars",
-            headers: getKinveyUserAuthHeaders(),
-            data: {carId, userId}
+            headers: getKinveyUserAuthHeadersWithContentTypeJSon(),
+            data: obj
         });
     }
 
     function findUserCars(userId) {
-        let userInfo = {
-            "userId": userId
-        };
-        userInfo = JSON.stringify(userInfo);
-
         return $.ajax({
             method: "GET",
-            url: baseUrl + "appdata/" + appKey + "/boughtCars?query=" + userInfo,
+            url: baseUrl + "appdata/" + appKey + "/cars/" + userId,
             headers: getKinveyUserAuthHeaders(),
         });
-    }
-
-    function getCarsImage(query) {
-        return $.ajax({
-            method: "GET",
-            url: baseUrl + "blob/" + appKey + "?query=" + query,
-            headers: getKinveyUserAuthHeaders()
-        })
     }
 
     function deleteCar(query) {
@@ -135,8 +154,8 @@ const KinveyRequester = (function() {
             headers: getKinveyUserAuthHeaders()
         });
     }
-	
-	function sendRegisterMail(email) {
+
+    function sendRegisterMail(email) {
         return $.ajax({
             method: "POST",
             url: baseUrl + "rpc/" + appKey + '/custom/registrationMail',
@@ -158,10 +177,42 @@ const KinveyRequester = (function() {
         });
     }
 
+    function sendDisapprovedPurchaseMail(email) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "rpc/" + appKey + '/custom/deleteCarPurchase',
+            headers: getKinveyUserAuthHeaders(),
+            data: {
+                "email": email
+            }
+        });
+    }
+
+    function sendApprovedPurchaseMail(email) {
+        return $.ajax({
+            method: "POST",
+            url: baseUrl + "rpc/" + appKey + '/custom/confirmCarPurchase',
+            headers: getKinveyUserAuthHeaders(),
+            data: {
+                "email": email
+            }
+        });
+    }
+
+    function getAllPurchases() {
+        return $.ajax({
+            method: "GET",
+            url: baseUrl + "appdata/" + appKey + "/boughtCars",
+            headers: getKinveyUserAuthHeaders(),
+        });
+    }
+
     return {
         loginUser, registerUser, logoutUser,
         findAllBooks, createBook, findBookById, editBook, deleteBook,
-        loadCars, markCarAsBought, findUserCars, getCarsImage, deleteCar, getThreePostsForHomeView, sendPurchasedCarMail, sendRegisterMail
+        loadCars, markCarAsBought, findUserCars, deleteCar, getThreePostsForHomeView,
+        sendPurchasedCarMail, sendRegisterMail, createCar, getAllPurchases,
+        sendDisapprovedPurchaseMail, sendApprovedPurchaseMail
     }
 })();
 

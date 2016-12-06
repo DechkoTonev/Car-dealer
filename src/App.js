@@ -19,7 +19,8 @@ import BooksView from './Views/BooksView';
 import CarsView from './Views/CarsView'
 import UserView from './Views/UserView'
 import PostsView from './Views/PostsView'
-import AdminPanel from './Views/AdminPanelView';
+import CreateCarView from './Views/CreateCarView'
+import AdminPanel from './Views/AdminPanelView'
 import toastr from 'toastr';
 
 import KinveyRequester from './KinveyRequester';
@@ -46,10 +47,11 @@ export default class App extends Component {
                             registerClicked={this.showRegisterView.bind(this)}
                             booksClicked={this.showBooksView.bind(this)}
                             createBookClicked={this.showCreateBookView.bind(this)}
+                            createCarClicked={this.showCreateCarView.bind(this)}
                             logoutClicked={this.logout.bind(this)}
                             showCarsClicked={this.showCarsView.bind(this)}
                             myCarsClicked={this.showMyCarsView.bind(this)}
-                            showAdminPanelClickec={this.showAdminPanelView.bind(this)}/>
+                            adminPanelClicked={this.showAdminPanelView.bind(this)}/>
                     </header>
                     <div className="notification-bar">
                             <div id="infoBox"></div>
@@ -79,6 +81,20 @@ export default class App extends Component {
 
         // Initially load the "Home" view when the app starts
         this.showHomeView();
+    }
+
+    showCreateCarView(){
+        this.showView(<CreateCarView onsubmit={this.createCar.bind(this)} />);
+    }
+
+    createCar(brand, model, imageUrl, price) {
+        KinveyRequester.createCar(brand, model, imageUrl, price)
+            .then(createCarSuccess.bind(this));
+
+        function createCarSuccess() {
+            this.showBooksView();
+            this.showInfo("Car created.");
+        }
     }
 
     handleAjaxError(event, response) {
@@ -141,12 +157,22 @@ export default class App extends Component {
     }
 
     showHomeView() {
-        KinveyRequester.getThreePostsForHomeView()
-            .then(loadThreePostsForHomeViewSuccess.bind(this));
+        let username = sessionStorage.getItem('username');
+
+        if(username == null){
+            this.showView(
+                <HomeView />
+            )
+        }else {
+            KinveyRequester.getThreePostsForHomeView()
+                .then(loadThreePostsForHomeViewSuccess.bind(this));
+        }
 
         function loadThreePostsForHomeViewSuccess(posts){
             this.showView(
                 <HomeView
+                    username={sessionStorage.getItem("username")}
+                    userId={sessionStorage.getItem("userId")}
                     posts={posts}
                     readArticleClicked={this.showArticleView.bind(this)}
                 />
@@ -401,8 +427,8 @@ export default class App extends Component {
         }
     }
 
-    markCarAsBought(carId, userId) {
-        KinveyRequester.markCarAsBought(carId, userId)
+    markCarAsBought(carId, userId, carBrand, carModel, carImage, carPrice, email, username) {
+        KinveyRequester.markCarAsBought(carId, userId, carBrand, carModel, carImage, carPrice, email, username)
             .then(redirectUserToHisPage.bind(this))
 
         function redirectUserToHisPage() {
@@ -418,29 +444,7 @@ export default class App extends Component {
         KinveyRequester.findUserCars(userId)
             .then(FindCarsSuccess.bind(this));
 
-        function FindCarsSuccess(cars) {
-            if(cars.length < 1) {
-                loadCarsSuccessful.apply(this, cars);
-                return;
-            }
-
-            let carsId = [];
-            cars.forEach(car => {
-                let obj = {
-                    "_id": car.carId
-                };
-                carsId.push(obj)
-            });
-
-            let query = {
-                "$or": carsId
-            };
-
-            query = JSON.stringify(query);
-            KinveyRequester.getCarsImage(query)
-                .then(loadCarsSuccessful.bind(this));
-
-            function loadCarsSuccessful(cars) {
+            function FindCarsSuccess(cars) {
                 this.showInfo("Your cars are loaded.");
                 this.showView(
                     <UserView
@@ -450,25 +454,65 @@ export default class App extends Component {
                 );
             }
         }
-    }
 
-    deleteCar(carId, userId) {
-        let query = {
-            "carId": carId,
-            "userId": userId
-        };
+    showAdminPanelView() {
+        KinveyRequester.getAllPurchases()
+            .then(loadingSuccess.bind(this));
 
-        query = JSON.stringify(query);
-        KinveyRequester.deleteCar(query)
-            .then(carSuccessfullyDeleted.bind(this));
-
-        function carSuccessfullyDeleted() {
-            this.showInfo("Car successfully removed from bucket.");
-            this.showMyCarsView();
+        function loadingSuccess(data) {
+            this.showView(<AdminPanel
+                purchases={data}
+                carDisapproveClicked={this.disapprovedPurchase.bind(this)}
+                carApproveClicked={this.approvedPurchase.bind(this)}/>)
         }
     }
 
-    showAdminPanelView() {
-        this.showView(<AdminPanel />)
+    disapprovedPurchase(purchaseId, userEmail) {
+        let query = {
+            "_id": purchaseId
+        };
+        query = JSON.stringify(query);
+        KinveyRequester.sendDisapprovedPurchaseMail(userEmail);
+        KinveyRequester.deleteCar(query)
+            .then(successDelete.bind(this));
+
+        function successDelete() {
+            this.showInfo("Purchase was successfully disapproved.");
+            this.showAdminPanelView();
+        }
+    }
+
+    approvedPurchase(purchaseId, userEmail) {
+        let query = {
+            "_id": purchaseId
+        };
+        query = JSON.stringify(query);
+        KinveyRequester.sendApprovedPurchaseMail(userEmail);
+        KinveyRequester.deleteCar(query)
+            .then(successDelete.bind(this));
+
+        function successDelete() {
+            this.showInfo("Purchase was successfully approved.");
+            this.showAdminPanelView();
+        }
     }
 }
+
+
+    //deleteCar(carId, userId) {
+    //    let query = {
+    //        "carId": carId,
+    //        "userId": userId
+    //    };
+    //
+    //    query = JSON.stringify(query);
+    //    KinveyRequester.deleteCar(query)
+    //        .then(carSuccessfullyDeleted.bind(this));
+    //
+    //    function carSuccessfullyDeleted() {
+    //        this.showInfo("Car successfully removed from bucket.");
+    //        this.showMyCarsView();
+    //    }
+    //}
+
+//}

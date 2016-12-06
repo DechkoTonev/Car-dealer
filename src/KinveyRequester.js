@@ -134,7 +134,7 @@ const KinveyRequester = (function() {
     function findUserCars(userId) {
         return $.ajax({
             method: "GET",
-            url: baseUrl + "appdata/" + appKey + "/cars/" + userId,
+            url: baseUrl + "appdata/" + appKey + '/boughtCars/?query={"userId":"' + userId + '"}',
             headers: getKinveyUserAuthHeaders(),
         });
     }

@@ -50,7 +50,7 @@ export default class App extends Component {
                             createCarClicked={this.showCreateCarView.bind(this)}
                             logoutClicked={this.logout.bind(this)}
                             showCarsClicked={this.showCarsView.bind(this)}
-                            myCarsClicked={this.showMyCarsView.bind(this)}
+                            //myCarsClicked={this.showMyCarsView.bind(this)}
                             adminPanelClicked={this.showAdminPanelView.bind(this)}/>
                     </header>
                     <div className="notification-bar">
@@ -92,7 +92,7 @@ export default class App extends Component {
             .then(createCarSuccess.bind(this));
 
         function createCarSuccess() {
-            this.showBooksView();
+            this.showCarsView();
             this.showInfo("Car created.");
         }
     }
@@ -439,21 +439,21 @@ export default class App extends Component {
         }
     }
 
-    showMyCarsView() {
-        let userId = sessionStorage.getItem("userId");
-        KinveyRequester.findUserCars(userId)
-            .then(FindCarsSuccess.bind(this));
-
-            function FindCarsSuccess(cars) {
-                this.showInfo("Your cars are loaded.");
-                this.showView(
-                    <UserView
-                        userCars={cars}
-                        deleteCarClicked={this.deleteCar.bind(this)}
-                    />
-                );
-            }
-        }
+    //showMyCarsView() {
+    //    let userId = sessionStorage.getItem("userId");
+    //    KinveyRequester.findUserCars(userId)
+    //        .then(FindCarsSuccess.bind(this));
+    //
+    //        function FindCarsSuccess(cars) {
+    //            this.showInfo("Your cars are loaded.");
+    //            this.showView(
+    //                <UserView
+    //                    userCars={cars}
+    //                    deleteCarClicked={this.deleteCar.bind(this)}
+    //                />
+    //            );
+    //        }
+    //    }
 
     showAdminPanelView() {
         KinveyRequester.getAllPurchases()

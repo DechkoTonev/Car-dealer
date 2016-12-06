@@ -5,7 +5,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer className="footer">
-                (c) 2006 - Car Dealer (React App)
+                (c) 2016 - Car Dealer (React App)
             </footer>
         );
     }

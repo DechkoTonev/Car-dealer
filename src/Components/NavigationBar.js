@@ -39,7 +39,6 @@ export default class NavigationBar extends Component {
                                             <li><a href="#" onClick={this.props.createBookClicked}>Create Posts</a></li>
                                             <li><a href="#" onClick={this.props.createCarClicked}>Create Car</a></li>
                                             <li><a href="#" onClick={this.props.showCarsClicked}>Showroom</a></li>
-                                            <li><a href="#" onClick={this.props.myCarsClicked}>My Cars</a></li>
                                             <li><a href="#" onClick={this.props.adminPanelClicked}>Admin Panel</a></li>
                                             <li><a href="#" onClick={this.props.logoutClicked}>Logout</a></li>
                                             <li>
@@ -64,7 +63,7 @@ export default class NavigationBar extends Component {
                                         <ul className="nav navbar-nav">
                                             <li><a href="#" onClick={this.props.homeClicked}>Home</a></li>
                                             <li><a href="#" onClick={this.props.showCarsClicked}>Showroom</a></li>
-                                            <li><a href="#" onClick={this.props.myCarsClicked}>My Cars</a></li>
+                                            <li><a href="#" onClick={this.props.booksClicked}>List Posts</a></li>
                                             <li><a href="#" onClick={this.props.logoutClicked}>Logout</a></li>
                                             <li>
                                             <span className="loggedInUser"> Welcome, {username}!

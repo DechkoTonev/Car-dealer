@@ -19,7 +19,7 @@ export default class CreateCarView extends Component {
                         <input type="text" name="picture" className="form" required
                                ref={e => this.pictureUrlField = e}/>
                         <label>Price:</label>
-                    <textarea type="text" rows="25" name="price" className="form" required
+                    <input type="text" rows="25" name="price" className="form" required
                               ref={e => this.priceField = e}/>
                     </div>
                     <input type="submit" value="Create" className="form-btn semibold"/>
